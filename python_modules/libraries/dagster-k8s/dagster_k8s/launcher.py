@@ -133,9 +133,7 @@ class K8sRunLauncher(RunLauncher, ConfigurableClass):
         self.postgres_password_secret = check.opt_str_param(
             postgres_password_secret, "postgres_password_secret"
         )
-        self._env_config_maps = check.opt_list_param(
-            env_config_maps, "env_config_maps", of_type=str
-        )
+        self.env_config_maps = check.opt_list_param(env_config_maps, "env_config_maps", of_type=str)
         self._env_secrets = check.opt_list_param(env_secrets, "env_secrets", of_type=str)
 
         super().__init__()
@@ -187,7 +185,7 @@ class K8sRunLauncher(RunLauncher, ConfigurableClass):
                     self.postgres_password_secret, "postgres_password_secret"
                 ),
                 env_config_maps=check.opt_list_param(
-                    self._env_config_maps, "env_config_maps", of_type=str
+                    self.env_config_maps, "env_config_maps", of_type=str
                 ),
                 env_secrets=check.opt_list_param(self._env_secrets, "env_secrets", of_type=str),
             )
@@ -209,7 +207,7 @@ class K8sRunLauncher(RunLauncher, ConfigurableClass):
                 self.postgres_password_secret, "postgres_password_secret"
             ),
             env_config_maps=check.opt_list_param(
-                self._env_config_maps, "env_config_maps", of_type=str
+                self.env_config_maps, "env_config_maps", of_type=str
             ),
             env_secrets=check.opt_list_param(self._env_secrets, "env_secrets", of_type=str),
         )

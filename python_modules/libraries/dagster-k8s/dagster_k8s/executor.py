@@ -69,6 +69,8 @@ def k8s_job_executor(init_context: InitExecutorContext) -> Executor:
 
     run_launcher = init_context.instance.run_launcher
     exc_cfg = init_context.executor_config
+
+    _env_config_maps = exc_cfg.get("env_config_maps") or [] + run_launcher.env_config_maps or []
     job_config = DagsterK8sJobConfig(
         dagster_home=run_launcher.dagster_home,
         instance_config_map=run_launcher.instance_config_map,
@@ -77,7 +79,7 @@ def k8s_job_executor(init_context: InitExecutorContext) -> Executor:
         image_pull_policy=exc_cfg.get("image_pull_policy"),
         image_pull_secrets=exc_cfg.get("image_pull_secrets"),
         service_account_name=exc_cfg.get("service_account_name"),
-        env_config_maps=exc_cfg.get("env_config_maps"),
+        env_config_maps=list(set(_env_config_maps)),
         env_secrets=exc_cfg.get("env_secrets"),
     )
 
